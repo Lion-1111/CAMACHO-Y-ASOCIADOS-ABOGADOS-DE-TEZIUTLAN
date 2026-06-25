@@ -82,7 +82,7 @@ function Hero() {
               href="#contacto"
               className="inline-flex items-center gap-3 bg-[oklch(0.97_0.008_90)] text-foreground px-7 py-4 text-xs uppercase tracking-[0.25em] hover:bg-[oklch(0.82_0.1_78)] transition-colors"
             >
-              Agendar consulta
+              Agendar consulta por WhatsApp
               <span aria-hidden>→</span>
             </a>
             <a href="tel:2311221030" className="text-sm text-[oklch(0.9_0.01_90)] tracking-wide">

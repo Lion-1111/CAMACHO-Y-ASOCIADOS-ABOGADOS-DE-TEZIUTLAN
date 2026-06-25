@@ -3,6 +3,8 @@ import { useState } from "react";
 import heroOffice from "@/assets/hero-office.jpg";
 import lawBooks from "@/assets/law-books.jpg";
 import attorneys from "@/assets/attorneys.jpg";
+import eagleEmblem from "@/assets/eagle-emblem.png";
+import logoAsset from "@/assets/logo-camacho.jpg.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -37,8 +39,11 @@ function Nav() {
   return (
     <header className="absolute top-0 left-0 right-0 z-20">
       <div className="mx-auto max-w-7xl px-6 md:px-10 py-6 flex items-center justify-between">
-        <div className="font-serif text-lg tracking-wide text-foreground">
-          Camacho <span className="text-muted-foreground">&amp;</span> Asociados
+        <div className="flex items-center gap-3">
+          <img src={eagleEmblem} alt="Emblema" width={36} height={36} className="w-9 h-9 object-contain" />
+          <div className="font-serif text-lg tracking-wide text-foreground">
+            Camacho <span className="text-muted-foreground">&amp;</span> Asociados
+          </div>
         </div>
         <nav className="hidden md:flex gap-10 text-xs uppercase tracking-[0.2em] text-muted-foreground">
           <a href="#nosotros" className="hover:text-foreground transition-colors">Nosotros</a>
@@ -179,8 +184,16 @@ function Pillars() {
     },
   ];
   return (
-    <section className="bg-[oklch(0.16_0.012_150)] text-[oklch(0.95_0.008_90)]">
-      <div className="mx-auto max-w-7xl px-6 md:px-10 py-24 md:py-32 grid md:grid-cols-3 gap-px bg-[oklch(0.95_0.008_90)]/10">
+    <section className="relative overflow-hidden bg-[oklch(0.16_0.012_150)] text-[oklch(0.95_0.008_90)]">
+      <img
+        src={logoAsset.url}
+        alt=""
+        width={600}
+        height={400}
+        loading="lazy"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] max-w-[480px] opacity-[0.06] pointer-events-none object-contain"
+      />
+      <div className="relative mx-auto max-w-7xl px-6 md:px-10 py-24 md:py-32 grid md:grid-cols-3 gap-px bg-[oklch(0.95_0.008_90)]/10">
         {items.map((it) => (
           <div key={it.k} className="bg-[oklch(0.16_0.012_150)] p-10 md:p-12">
             <div className="text-xs uppercase tracking-[0.3em] text-[oklch(0.82_0.1_78)] mb-8">

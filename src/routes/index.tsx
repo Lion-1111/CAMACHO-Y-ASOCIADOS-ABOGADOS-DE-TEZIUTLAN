@@ -39,8 +39,11 @@ function Nav() {
   return (
     <header className="absolute top-0 left-0 right-0 z-20">
       <div className="mx-auto max-w-7xl px-6 md:px-10 py-6 flex items-center justify-between">
-        <div className="font-serif text-lg tracking-wide text-foreground">
-          Camacho <span className="text-muted-foreground">&amp;</span> Asociados
+        <div className="flex items-center gap-3">
+          <img src={eagleEmblem} alt="Emblema" width={36} height={36} className="w-9 h-9 object-contain" />
+          <div className="font-serif text-lg tracking-wide text-foreground">
+            Camacho <span className="text-muted-foreground">&amp;</span> Asociados
+          </div>
         </div>
         <nav className="hidden md:flex gap-10 text-xs uppercase tracking-[0.2em] text-muted-foreground">
           <a href="#nosotros" className="hover:text-foreground transition-colors">Nosotros</a>

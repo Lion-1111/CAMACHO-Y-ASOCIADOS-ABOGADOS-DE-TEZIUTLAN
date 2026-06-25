@@ -288,13 +288,17 @@ function Contact() {
             Av. Miguel Hidalgo 408, Centro<br />
             73800 Teziutlán, Puebla
           </Info>
-          <Info label="Teléfono">
-            <a href="tel:2311221030" className="hover:text-accent transition-colors">231 122 1030</a>
+          <Info label="Teléfono / WhatsApp">
+            <a href="https://wa.me/5212311221030" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors">+52 1 231 122 1030</a>
           </Info>
           <Info label="Correo">
-            <a href="mailto:contacto@camachoyasociados.com" className="hover:text-accent transition-colors">
-              contacto@camachoyasociados.com
+            <a href="mailto:lic.camachoteziutlan@hotmail.com" className="hover:text-accent transition-colors">
+              lic.camachoteziutlan@hotmail.com
             </a>
+          </Info>
+          <Info label="Horario">
+            Lunes a viernes: 9:00 – 20:00<br />
+            Sábados: 9:00 – 15:00
           </Info>
         </div>
 

@@ -79,7 +79,9 @@ function Hero() {
           </p>
           <div className="mt-10 flex flex-wrap gap-4 items-center">
             <a
-              href="#contacto"
+              href="https://wa.me/5212311221030"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-3 bg-[oklch(0.97_0.008_90)] text-foreground px-7 py-4 text-xs uppercase tracking-[0.25em] hover:bg-[oklch(0.82_0.1_78)] transition-colors"
             >
               Agendar consulta por WhatsApp

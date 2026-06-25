@@ -79,14 +79,16 @@ function Hero() {
           </p>
           <div className="mt-10 flex flex-wrap gap-4 items-center">
             <a
-              href="#contacto"
+              href="https://wa.me/5212311221030"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-3 bg-[oklch(0.97_0.008_90)] text-foreground px-7 py-4 text-xs uppercase tracking-[0.25em] hover:bg-[oklch(0.82_0.1_78)] transition-colors"
             >
-              Agendar consulta
+              Agendar consulta por WhatsApp
               <span aria-hidden>→</span>
             </a>
-            <a href="tel:2311221030" className="text-sm text-[oklch(0.9_0.01_90)] tracking-wide">
-              231 122 1030
+            <a href="https://wa.me/5212311221030" className="text-sm text-[oklch(0.9_0.01_90)] tracking-wide">
+              +52 1 231 122 1030
             </a>
           </div>
         </div>
@@ -286,13 +288,17 @@ function Contact() {
             Av. Miguel Hidalgo 408, Centro<br />
             73800 Teziutlán, Puebla
           </Info>
-          <Info label="Teléfono">
-            <a href="tel:2311221030" className="hover:text-accent transition-colors">231 122 1030</a>
+          <Info label="Teléfono / WhatsApp">
+            <a href="https://wa.me/5212311221030" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors">+52 1 231 122 1030</a>
           </Info>
           <Info label="Correo">
-            <a href="mailto:contacto@camachoyasociados.com" className="hover:text-accent transition-colors">
-              contacto@camachoyasociados.com
+            <a href="mailto:lic.camachoteziutlan@hotmail.com" className="hover:text-accent transition-colors">
+              lic.camachoteziutlan@hotmail.com
             </a>
+          </Info>
+          <Info label="Horario">
+            Lunes a viernes: 9:00 – 20:00<br />
+            Sábados: 9:00 – 15:00
           </Info>
         </div>
 

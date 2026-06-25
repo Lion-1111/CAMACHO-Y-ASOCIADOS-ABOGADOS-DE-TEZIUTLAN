@@ -85,8 +85,8 @@ function Hero() {
               Agendar consulta por WhatsApp
               <span aria-hidden>→</span>
             </a>
-            <a href="tel:2311221030" className="text-sm text-[oklch(0.9_0.01_90)] tracking-wide">
-              231 122 1030
+            <a href="https://wa.me/5212311221030" className="text-sm text-[oklch(0.9_0.01_90)] tracking-wide">
+              +52 1 231 122 1030
             </a>
           </div>
         </div>

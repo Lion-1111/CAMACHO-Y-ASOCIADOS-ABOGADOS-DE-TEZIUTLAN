@@ -184,8 +184,16 @@ function Pillars() {
     },
   ];
   return (
-    <section className="bg-[oklch(0.16_0.012_150)] text-[oklch(0.95_0.008_90)]">
-      <div className="mx-auto max-w-7xl px-6 md:px-10 py-24 md:py-32 grid md:grid-cols-3 gap-px bg-[oklch(0.95_0.008_90)]/10">
+    <section className="relative overflow-hidden bg-[oklch(0.16_0.012_150)] text-[oklch(0.95_0.008_90)]">
+      <img
+        src={logoAsset.url}
+        alt=""
+        width={600}
+        height={400}
+        loading="lazy"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] max-w-[480px] opacity-[0.06] pointer-events-none object-contain"
+      />
+      <div className="relative mx-auto max-w-7xl px-6 md:px-10 py-24 md:py-32 grid md:grid-cols-3 gap-px bg-[oklch(0.95_0.008_90)]/10">
         {items.map((it) => (
           <div key={it.k} className="bg-[oklch(0.16_0.012_150)] p-10 md:p-12">
             <div className="text-xs uppercase tracking-[0.3em] text-[oklch(0.82_0.1_78)] mb-8">

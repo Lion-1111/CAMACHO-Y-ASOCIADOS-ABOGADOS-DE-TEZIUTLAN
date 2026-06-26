@@ -1,56 +1,231 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, useEffect, useRef, type ReactNode } from "react";
 import heroOffice from "@/assets/hero-office.jpg";
-import lawBooks from "@/assets/law-books.jpg";
-import attorneys from "@/assets/attorneys.jpg";
 import eagleEmblem from "@/assets/user-eagle-clean.png";
-import logoAsset from "@/assets/logo-camacho.jpg.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Camacho y Asociados Abogados — Despacho Legal en Teziutlán" },
+      { title: "Camacho Y Asociados Abogados — Despacho Legal en Teziutlán" },
       { name: "description", content: "Despacho jurídico en Teziutlán, Puebla. Asesoría legal especializada con integridad, ética y profesionalismo." },
-      { property: "og:title", content: "Camacho y Asociados Abogados" },
-      { property: "og:description", content: "Asesoría legal especializada en Teziutlán, Puebla." },
-      { property: "og:type", content: "website" },
+      { property: "og:title", content: "Camacho Y Asociados Abogados" },
     ],
   }),
   component: Index,
 });
 
-function Index() {
+/* ── Scroll animation ─────────────────────────────── */
+function useFadeIn() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) setVisible(true); },
+      { threshold: 0.12 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+  return { ref, visible };
+}
+
+/* ── Business Status Hook ─────────────────────────── */
+function useBusinessStatus() {
+  const [status, setStatus] = useState({ isOpen: false, text: "" });
+
+  useEffect(() => {
+    const checkStatus = () => {
+      const now = new Date();
+      const day = now.getDay();
+      const hour = now.getHours();
+
+      let open = false;
+      // Lunes a viernes: 9:00 - 20:00
+      if (day >= 1 && day <= 5) {
+        if (hour >= 9 && hour < 20) open = true;
+      }
+      // Sábado: 9:00 - 15:00
+      else if (day === 6) {
+        if (hour >= 9 && hour < 15) open = true;
+      }
+
+      setStatus({
+        isOpen: open,
+        text: open ? "Abierto ahora" : "Cerrado ahora"
+      });
+    };
+
+    checkStatus();
+    const interval = setInterval(checkStatus, 60000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return status;
+}
+
+function BusinessStatus() {
+  const { isOpen, text } = useBusinessStatus();
+
+  if (!text) return null; // No mostrar nada hasta calcular
+
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <Nav />
-      <Hero />
-      <Marquee />
-      <About />
-      <Pillars />
-      <Practice />
-      <Quote />
-      <Contact />
-      <Footer />
+    <span className="flex items-center gap-1.5 font-sans tracking-widest text-[10px] sm:text-xs">
+      <span className={`w-2 h-2 rounded-full ${isOpen ? 'bg-green-500' : 'bg-red-500/80'}`}></span>
+      <span className="text-white/80">{text}</span>
+    </span>
+  );
+}
+
+function FadeIn({
+  children,
+  delay = 0,
+  className = "",
+}: {
+  children: ReactNode;
+  delay?: number;
+  className?: string;
+}) {
+  const { ref, visible } = useFadeIn();
+  return (
+    <div
+      ref={ref}
+      className={className}
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? "translateY(0)" : "translateY(24px)",
+        transition: `opacity 0.6s ease ${delay}ms, transform 0.6s ease ${delay}ms`,
+      }}
+    >
+      {children}
     </div>
   );
 }
 
+/* ── SVG Icons ────────────────────────────────────── */
+const IconScales = () => (
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+    <line x1="12" y1="3" x2="12" y2="21" /><line x1="3" y1="6" x2="21" y2="6" />
+    <path d="M6 10l-3 7h6l-3-7z" /><path d="M18 10l-3 7h6l-3-7z" />
+  </svg>
+);
+const IconHome = () => (
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+    <polyline points="9 22 9 12 15 12 15 22" />
+  </svg>
+);
+const IconBriefcase = () => (
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="2" y="7" width="20" height="14" rx="2" />
+    <path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2" />
+  </svg>
+);
+const IconUser = () => (
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+    <circle cx="12" cy="7" r="4" />
+  </svg>
+);
+const IconShield = () => (
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+    <polyline points="9 12 11 14 15 10" />
+  </svg>
+);
+const IconFacebook = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" />
+  </svg>
+);
+const IconGoogle = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M21.8 10.2H12v3.6h5.6c-.5 2.5-2.7 4.2-5.6 4.2a6 6 0 010-12c1.5 0 2.9.6 4 1.5l2.6-2.6A10 10 0 1022 12c0-.6-.1-1.2-.2-1.8z" />
+  </svg>
+);
+const IconStar = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="text-[#B0623B]">
+    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+  </svg>
+);
+const IconStarOutline = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[#B0623B]">
+    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+  </svg>
+);
+const IconWhatsApp = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a5.8 5.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
+  </svg>
+);
+
+// URL de WhatsApp con mensaje formal predeterminado
+const WA_URL = `https://wa.me/5212311221030?text=${encodeURIComponent('Estimado Licenciado Camacho, solicito agendar una consulta jurídica para evaluar mi caso. Quedo a la espera de sus horarios disponibles.')}`;
+
+/* ── Page ─────────────────────────────────────────── */
+function Index() {
+  return (
+    <div className="min-h-screen bg-[oklch(0.97_0.008_90)] text-[oklch(0.18_0.015_150)]">
+      <Nav />
+      <Hero />
+      <Marquee />
+      <About />
+      <Practice />
+      <Reviews />
+      <Contact />
+      <Footer />
+      <FloatingWhatsApp />
+    </div>
+  );
+}
+
+/* ── Floating WhatsApp ───────────────────────────── */
+function FloatingWhatsApp() {
+  return (
+    <a
+      href={WA_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="fixed bottom-6 right-6 z-50 flex items-center gap-3 px-5 py-3 bg-white/90 backdrop-blur-md border border-[#c9a84c] text-[#1C2B22] rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.12)] hover:bg-[#1C2B22] hover:text-[#c9a84c] transition-all duration-300"
+      aria-label="Agendar Asesoría por WhatsApp"
+    >
+      <IconWhatsApp />
+      <span className="text-[11px] font-bold uppercase tracking-widest hidden sm:block">
+        Agendar Asesoría
+      </span>
+    </a>
+  );
+}
+
+/* ── Nav — NO MODIFICAR ──────────────────────────── */
 function Nav() {
   return (
     <header className="absolute top-0 left-0 right-0 z-20">
-      <div className="mx-auto max-w-7xl px-6 md:px-10 py-6 flex items-center justify-between">
-        <div className="flex items-center gap-3 -ml-2">
-          <img src={eagleEmblem} alt="Emblema" width={128} height={128} className="w-32 h-32 object-contain" />
-          <div className="font-serif text-lg tracking-wide text-foreground">
-            Camacho <span className="text-muted-foreground">&amp;</span> Asociados
-          </div>
+      <div className="absolute top-0 left-0 p-2 sm:p-3 flex flex-col items-center">
+        <img
+          src={eagleEmblem}
+          alt="Emblema Camacho"
+          className="w-36 sm:w-44 md:w-56 object-contain"
+        />
+        <div
+          className="-mt-5 font-serif text-center tracking-widest text-[#c9a84c] leading-tight"
+          style={{ fontSize: "10px" }}
+        >
+          <p className="sm:text-[12px] md:text-[14px]">CAMACHO Y ASOCIADOS</p>
+          <p className="sm:text-[12px] md:text-[14px]">ABOGADOS</p>
         </div>
-        <nav className="hidden md:flex gap-10 text-xs uppercase tracking-[0.2em] text-muted-foreground">
-          <a href="#nosotros" className="hover:text-foreground transition-colors">Nosotros</a>
-          <a href="#practica" className="hover:text-foreground transition-colors">Áreas</a>
-          <a href="#contacto" className="hover:text-foreground transition-colors">Contacto</a>
+      </div>
+      <div className="flex justify-end items-start px-4 md:px-10 pt-5 gap-4 md:gap-8">
+        <nav className="hidden md:flex gap-8 text-xs uppercase tracking-[0.2em] text-white/75 mt-2">
+          <a href="#nosotros" className="hover:text-white transition-colors">Nosotros</a>
+          <a href="#practica" className="hover:text-white transition-colors">Áreas</a>
+          <a href="#contacto" className="hover:text-white transition-colors">Contacto</a>
         </nav>
-        <a href="#contacto" className="text-xs uppercase tracking-[0.2em] border-b border-foreground/40 pb-1 hover:border-foreground transition">
+        <a
+          href="#contacto"
+          className="text-[10px] md:text-xs uppercase tracking-[0.15em] border-b border-white/30 pb-1 text-white/70 hover:text-white hover:border-white transition mt-2"
+        >
           Consulta
         </a>
       </div>
@@ -58,42 +233,39 @@ function Nav() {
   );
 }
 
+/* ── Hero ────────────────────────────────────────── */
 function Hero() {
   return (
-    <section className="relative min-h-[92vh] flex items-end overflow-hidden">
+    <section className="relative min-h-screen flex items-end overflow-hidden">
       <img
         src={heroOffice}
-        alt="Despacho legal"
-        width={1600}
-        height={1200}
+        alt="Despacho legal Camacho"
         className="absolute inset-0 w-full h-full object-cover"
       />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/80" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-black/20 to-black/80" />
       <div className="relative z-10 mx-auto max-w-7xl px-6 md:px-10 pb-20 md:pb-28 w-full">
         <div className="max-w-3xl">
-          <div className="text-xs uppercase tracking-[0.3em] text-[oklch(0.85_0.06_80)] mb-6">
-            Teziutlán · Puebla · Desde 1998
+          <div className="text-xs uppercase tracking-[0.3em] text-[#c9a84c] mb-6 flex flex-wrap items-center gap-3">
+            <span>Teziutlán · Puebla · Desde 1998</span>
+            <span className="hidden sm:inline-block text-[#c9a84c]/50 text-[6px]">◆</span>
+            <BusinessStatus />
           </div>
-          <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl leading-[0.95] text-[oklch(0.97_0.008_90)] text-balance">
-            Defendemos lo<br />
-            <em className="text-[oklch(0.82_0.1_78)] font-normal">que es justo.</em>
+          <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl leading-[0.95] text-white text-balance">
+            Defendemos lo que es justo.
           </h1>
-          <p className="mt-8 max-w-xl text-base md:text-lg text-[oklch(0.88_0.01_90)]/80 leading-relaxed">
+          <p className="mt-8 max-w-xl text-base md:text-lg text-white/70 leading-relaxed">
             El despacho jurídico de referencia en Teziutlán, Puebla. Resultados claros,
             estrategia precisa y la defensa que su caso merece.
           </p>
-          <div className="mt-10 flex flex-wrap gap-4 items-center">
+          <div className="mt-10">
             <a
-              href="https://wa.me/5212311221030"
+              href={WA_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 bg-[oklch(0.97_0.008_90)] text-foreground px-7 py-4 text-xs uppercase tracking-[0.25em] hover:bg-[oklch(0.82_0.1_78)] transition-colors"
+              className="inline-flex items-center gap-3 border border-[#c9a84c]/70 text-[#c9a84c] px-8 py-4 text-xs uppercase tracking-[0.25em] backdrop-blur-sm bg-white/5 hover:bg-[#c9a84c]/10 hover:border-[#c9a84c] transition-all duration-300 rounded-sm"
             >
-              Agendar consulta por WhatsApp
-              <span aria-hidden>→</span>
-            </a>
-            <a href="https://wa.me/5212311221030" className="text-sm text-[oklch(0.9_0.01_90)] tracking-wide">
-              +52 1 231 122 1030
+              <IconWhatsApp />
+              Agendar Consulta
             </a>
           </div>
         </div>
@@ -102,297 +274,374 @@ function Hero() {
   );
 }
 
+/* ── Marquee ─────────────────────────────────────── */
 function Marquee() {
   const items = [
-    "Derecho Civil",
-    "Derecho Mercantil",
-    "Derecho Familiar",
-    "Derecho Laboral",
-    "Amparo",
-    "Derecho Penal",
-    "Notarial",
+    "Derecho Civil", "Derecho Mercantil", "Derecho Familiar",
+    "Derecho Laboral", "Amparo", "Derecho Penal", "Notarial",
   ];
+
+  // Elementos individuales
+  const content = items.map((it, i) => (
+    <span key={i} className="flex items-center gap-10 shrink-0 px-5">
+      {it}
+      <span className="text-[#B0623B]" style={{ fontSize: "7px" }}>◆</span>
+    </span>
+  ));
+
   return (
-    <div className="border-y border-border bg-secondary/40">
-      <div className="mx-auto max-w-7xl px-6 md:px-10 py-5 flex flex-wrap items-center gap-x-10 gap-y-2 text-xs uppercase tracking-[0.25em] text-muted-foreground">
-        {items.map((it, i) => (
-          <span key={it} className="flex items-center gap-10">
-            {it}
-            {i < items.length - 1 && <span className="text-accent">◆</span>}
-          </span>
-        ))}
+    <div className="border-y border-[oklch(0.86_0.012_90)] bg-[oklch(0.93_0.012_90)]/60 overflow-hidden py-5 flex">
+      <style>{`
+        @keyframes ticker {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-100%); }
+        }
+        .animate-ticker {
+          animation: ticker 40s linear infinite;
+        }
+      `}</style>
+
+      {/* Duplicamos los bloques varias veces para asegurar que llene pantallas muy anchas */}
+      <div className="flex shrink-0 animate-ticker w-max text-xs uppercase tracking-[0.25em] text-[oklch(0.45_0.015_120)]">
+        {content}
+      </div>
+      <div className="flex shrink-0 animate-ticker w-max text-xs uppercase tracking-[0.25em] text-[oklch(0.45_0.015_120)]">
+        {content}
+      </div>
+      <div className="flex shrink-0 animate-ticker w-max text-xs uppercase tracking-[0.25em] text-[oklch(0.45_0.015_120)]">
+        {content}
+      </div>
+      <div className="flex shrink-0 animate-ticker w-max text-xs uppercase tracking-[0.25em] text-[oklch(0.45_0.015_120)]">
+        {content}
       </div>
     </div>
   );
 }
 
+/* ── About ───────────────────────────────────────── */
 function About() {
   return (
-    <section id="nosotros" className="mx-auto max-w-7xl px-6 md:px-10 py-24 md:py-36 grid md:grid-cols-12 gap-12">
-      <div className="md:col-span-5">
-        <div className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-6">
-          — Nosotros
-        </div>
-        <h2 className="font-serif text-4xl md:text-5xl leading-[1.05] text-balance">
-          Una práctica construida sobre la <em className="text-[oklch(0.45_0.09_155)]">confianza</em>,
-          la disciplina y el rigor.
-        </h2>
-      </div>
-      <div className="md:col-span-6 md:col-start-7 space-y-6 text-base md:text-lg leading-relaxed text-muted-foreground">
-        <p>
-          Camacho y Asociados Abogados es un despacho jurídico independiente con sede en Teziutlán,
-          Puebla. Atendemos a personas, familias y empresas que requieren asesoría legal precisa,
-          honesta y orientada a soluciones reales.
-        </p>
-        <p>
-          Nuestro compromiso no se limita a un perfil específico de cliente. Defendemos a cualquier
-          persona que necesite representación justa y equitativa, con la misma seriedad con la que
-          tratamos los asuntos más complejos.
-        </p>
-        <div className="grid grid-cols-3 gap-8 pt-8">
-          <Stat n="25+" l="Años de práctica" />
-          <Stat n="600+" l="Casos atendidos" />
-          <Stat n="100%" l="Compromiso ético" />
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function Stat({ n, l }: { n: string; l: string }) {
-  return (
-    <div>
-      <div className="font-serif text-3xl md:text-4xl text-foreground">{n}</div>
-      <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground mt-2">{l}</div>
-    </div>
-  );
-}
-
-function Pillars() {
-  const items = [
-    {
-      k: "Visión",
-      t: "Ser referente jurídico en la región, con soluciones adaptadas a los desafíos legales actuales.",
-    },
-    {
-      k: "Misión",
-      t: "Brindar asesoría legal especializada y soluciones eficientes para satisfacer cada necesidad.",
-    },
-    {
-      k: "Valores",
-      t: "Defendemos los intereses de nuestros clientes con integridad, ética y profesionalismo.",
-    },
-  ];
-  return (
-    <section className="relative overflow-hidden bg-[oklch(0.16_0.012_150)] text-[oklch(0.95_0.008_90)]">
-      <img
-        src={logoAsset.url}
-        alt=""
-        width={600}
-        height={400}
-        loading="lazy"
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] max-w-[480px] opacity-[0.06] pointer-events-none object-contain"
-      />
-      <div className="relative mx-auto max-w-7xl px-6 md:px-10 py-24 md:py-32 grid md:grid-cols-3 gap-px bg-[oklch(0.95_0.008_90)]/10">
-        {items.map((it) => (
-          <div key={it.k} className="bg-[oklch(0.16_0.012_150)] p-10 md:p-12">
-            <div className="text-xs uppercase tracking-[0.3em] text-[oklch(0.82_0.1_78)] mb-8">
-              {it.k}
+    <section id="nosotros" className="mx-auto max-w-7xl px-6 md:px-10 py-24 md:py-32">
+      <FadeIn>
+        <div className="grid md:grid-cols-12 gap-12">
+          <div className="md:col-span-5">
+            <div className="text-xs uppercase tracking-[0.3em] text-[oklch(0.45_0.015_120)] mb-6">
+              — Nosotros
             </div>
-            <p className="font-serif text-2xl md:text-3xl leading-snug text-balance">
-              {it.t}
+            <h2 className="font-serif text-4xl md:text-5xl leading-[1.05] text-balance">
+              Una práctica construida sobre la confianza y el rigor.
+            </h2>
+          </div>
+          <div className="md:col-span-6 md:col-start-7 space-y-5 text-base md:text-lg leading-relaxed text-[oklch(0.45_0.015_120)]">
+            <p>
+              Camacho y Asociados Abogados es un despacho jurídico independiente con sede en
+              Teziutlán, Puebla. Atendemos a personas, familias y empresas que requieren
+              asesoría legal precisa, honesta y orientada a soluciones reales.
+            </p>
+            <p>
+              Defendemos a cualquier persona que necesite representación justa y equitativa,
+              con la misma seriedad con la que tratamos los asuntos más complejos.
             </p>
           </div>
-        ))}
-      </div>
+        </div>
+      </FadeIn>
     </section>
   );
 }
 
+/* ── Practice ────────────────────────────────────── */
 function Practice() {
   const areas = [
-    { n: "01", t: "Derecho Civil", d: "Contratos, sucesiones, arrendamientos y responsabilidad civil." },
-    { n: "02", t: "Derecho Familiar", d: "Divorcios, custodias, pensiones y régimen patrimonial." },
-    { n: "03", t: "Derecho Mercantil", d: "Constitución de sociedades, contratos y cobranza judicial." },
-    { n: "04", t: "Derecho Laboral", d: "Defensa de trabajadores y patrones ante autoridades laborales." },
-    { n: "05", t: "Amparo", d: "Protección de derechos fundamentales frente a actos de autoridad." },
-    { n: "06", t: "Derecho Penal", d: "Defensa técnica especializada en el sistema acusatorio." },
+    { icon: <IconScales />, t: "Derecho Civil", d: "Contratos, propiedad, arrendamientos y conflictos entre particulares." },
+    { icon: <IconHome />, t: "Derecho Familiar", d: "Divorcios, pensión alimenticia, custodia y sucesiones." },
+    { icon: <IconBriefcase />, t: "Derecho Mercantil", d: "Constitución de empresas, contratos comerciales y cobranza." },
+    { icon: <IconUser />, t: "Derecho Laboral", d: "Despidos injustificados, finiquitos y demandas ante la junta." },
+    { icon: <IconShield />, t: "Amparo y Penal", d: "Defensa penal y juicios de amparo ante actos de autoridad." },
   ];
-  return (
-    <section id="practica" className="mx-auto max-w-7xl px-6 md:px-10 py-24 md:py-36">
-      <div className="grid md:grid-cols-12 gap-10 mb-16 items-end">
-        <div className="md:col-span-7">
-          <div className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-6">
-            — Áreas de práctica
-          </div>
-          <h2 className="font-serif text-4xl md:text-5xl leading-[1.05] text-balance">
-            Atención jurídica con criterio<br />
-            y profundidad técnica.
-          </h2>
-        </div>
-        <div className="md:col-span-4 md:col-start-9 text-muted-foreground">
-          Cada asunto se estudia, se planea y se defiende con la dedicación que merece.
-        </div>
-      </div>
 
-      <div className="grid md:grid-cols-3 gap-px bg-border">
-        {areas.map((a) => (
-          <article key={a.n} className="bg-background p-8 md:p-10 group transition-colors hover:bg-secondary/40">
-            <div className="flex items-baseline justify-between mb-6">
-              <span className="font-serif text-xs text-accent tracking-widest">{a.n}</span>
-              <span className="text-foreground opacity-0 group-hover:opacity-100 transition">→</span>
-            </div>
-            <h3 className="font-serif text-2xl mb-3">{a.t}</h3>
-            <p className="text-sm text-muted-foreground leading-relaxed">{a.d}</p>
-          </article>
+  return (
+    <section id="practica" className="mx-auto max-w-7xl px-6 md:px-10 pb-24 md:pb-32">
+      <FadeIn>
+        <div className="text-xs uppercase tracking-[0.3em] text-[#B0623B] mb-6">
+          — Áreas de práctica
+        </div>
+
+        {/* Enlaces Sociales - Facebook y Google */}
+        <div className="flex flex-wrap items-center gap-4 mb-10">
+          <a
+            href="https://www.facebook.com/CamachoyAsociadosAbogado/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-3 text-xs uppercase tracking-widest text-white bg-[#1877F2] hover:bg-[#166fe5] transition-colors px-6 py-3 rounded-md shadow-sm"
+          >
+            <IconFacebook />
+            Facebook
+          </a>
+          <a
+            href="https://maps.app.goo.gl/ZCTcuLwndC5VV6mz6"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-3 text-xs uppercase tracking-widest text-[oklch(0.18_0.015_150)] bg-white border border-black/10 hover:bg-black/5 transition-colors px-6 py-3 rounded-md shadow-sm"
+          >
+            <IconGoogle />
+            Reseñas en Google
+          </a>
+        </div>
+
+        <h2 className="font-serif text-4xl md:text-5xl mb-4 text-balance max-w-xl">
+          Cinco áreas, un mismo nivel de atención.
+        </h2>
+        <p className="text-[oklch(0.45_0.015_120)] mb-12 max-w-lg text-base">
+          No están ordenadas por importancia — cada una recibe el mismo cuidado,
+          sea cual sea el motivo de su consulta.
+        </p>
+      </FadeIn>
+
+      {/* Carrusel Deslizable en Móvil / Grid en Escritorio */}
+      <style>{`
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      `}</style>
+
+      {/* px-6 on mobile so the first card aligns with text, but allows the next to peek */}
+      <div className="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar gap-4 pb-8 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-px md:bg-[oklch(0.86_0.012_90)] md:pb-0 px-6 md:px-0">
+        {areas.map((a, i) => (
+          <div key={a.t} className="snap-start shrink-0 w-[80vw] sm:w-[50vw] md:w-auto">
+            <FadeIn delay={i * 70} className="h-full">
+              {/* bg-[#E6EAE6] da un tono verde muy elegante y sutil, distinto del crema */}
+              <div className="bg-[#E6EAE6] md:bg-[oklch(0.97_0.008_90)] border border-black/5 md:border-none p-8 md:p-10 h-full flex flex-col rounded-xl md:rounded-none shadow-sm md:shadow-none">
+                <div className="text-[oklch(0.35_0.015_150)] mb-5">{a.icon}</div>
+                <h3 className="font-serif text-xl mb-2">{a.t}</h3>
+                <p className="text-sm text-[oklch(0.45_0.015_120)] leading-relaxed">{a.d}</p>
+              </div>
+            </FadeIn>
+          </div>
         ))}
+
+        {/* CTA card */}
+        <div className="snap-start shrink-0 w-[80vw] sm:w-[50vw] md:w-auto pr-6 md:pr-0">
+          <FadeIn delay={areas.length * 70} className="h-full">
+            <div className="bg-[#1C2B22] p-8 md:p-10 h-full flex flex-col justify-between min-h-[200px] rounded-xl md:rounded-none shadow-sm md:shadow-none">
+              <div>
+                <p className="font-serif text-xl text-white mb-3">
+                  ¿No está seguro cuál es su caso?
+                </p>
+                <p className="text-sm text-white/60 leading-relaxed">
+                  Cuéntenos qué pasó en la primera consulta, sin costo, y le decimos qué camino conviene.
+                </p>
+              </div>
+              <a
+                href="https://wa.me/5212311221030"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-8 text-sm text-[#c9a84c] hover:text-white transition-colors tracking-wide"
+              >
+                Escribir por WhatsApp →
+              </a>
+            </div>
+          </FadeIn>
+        </div>
       </div>
     </section>
   );
 }
 
-function Quote() {
+/* ── Reviews ─────────────────────────────────────── */
+function Reviews() {
   return (
-    <section className="relative overflow-hidden">
-      <div className="grid md:grid-cols-2">
-        <div className="relative min-h-[420px] md:min-h-[560px]">
-          <img
-            src={lawBooks}
-            alt="Volúmenes jurídicos"
-            width={1200}
-            height={1500}
-            loading="lazy"
-            className="absolute inset-0 w-full h-full object-cover"
-          />
-        </div>
-        <div className="bg-[oklch(0.22_0.02_150)] text-[oklch(0.95_0.008_90)] flex items-center p-10 md:p-20">
-          <div>
-            <div className="font-serif text-5xl md:text-6xl text-[oklch(0.82_0.1_78)] leading-none mb-6">
-              “
+    <section className="mx-auto max-w-7xl px-6 md:px-10 pb-20 md:pb-28">
+      <FadeIn>
+        <div className="bg-[#f0ece1] border border-[oklch(0.86_0.012_90)] p-8 md:p-12 lg:p-16 rounded-xl flex flex-col md:flex-row gap-12 justify-between items-center shadow-sm">
+          <div className="max-w-2xl">
+            <div className="flex gap-1.5 mb-6">
+              <IconStar /><IconStar /><IconStar /><IconStar /><IconStarOutline />
             </div>
-            <blockquote className="font-serif text-2xl md:text-3xl leading-snug text-balance">
-              La justicia no se improvisa: se prepara con estudio, se sostiene con
-              argumentos y se defiende con coraje.
-            </blockquote>
-            <div className="mt-10 text-xs uppercase tracking-[0.3em] text-[oklch(0.82_0.1_78)]">
-              — Filosofía del despacho
+            <h2 className="font-serif text-4xl md:text-5xl text-balance mb-5">
+              Lo que dicen quienes ya nos consultaron
+            </h2>
+            <p className="text-sm md:text-base text-[oklch(0.35_0.015_120)] font-medium mb-6">
+              4.0 de 5 — calificación en Google, basada en reseñas reales de clientes en Teziutlán.
+            </p>
+            <p className="text-sm md:text-base text-[oklch(0.45_0.015_120)] mb-10 max-w-xl">
+              Si ya trabajaste con nosotros, tu opinión ayuda a alguien más a
+              decidir con confianza. Toma menos de un minuto.
+            </p>
+            <div className="flex flex-wrap gap-4">
+              <a
+                href="https://maps.app.goo.gl/ZCTcuLwndC5VV6mz6"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-3 bg-[#1C2B22] text-white px-7 py-4 text-xs font-semibold uppercase tracking-widest hover:bg-black transition-colors rounded-sm"
+              >
+                <IconGoogle />
+                Calificar en Google
+              </a>
+              <a
+                href={WA_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-3 bg-[#25D366] text-white px-7 py-4 text-xs font-semibold uppercase tracking-widest hover:bg-[#1ebe57] transition-colors rounded-sm"
+              >
+                <IconWhatsApp />
+                Agendar por WhatsApp
+              </a>
             </div>
           </div>
+
+          <div className="hidden lg:flex shrink-0 bg-white p-10 rounded-lg shadow-sm border border-black/5 items-center justify-center max-w-[280px] text-center flex-col gap-4">
+            <div className="w-16 h-16 bg-[oklch(0.97_0.008_90)] rounded-full flex items-center justify-center mb-2">
+              <IconStar />
+            </div>
+            <p className="font-serif text-xl">Tu confianza nos respalda</p>
+            <p className="text-sm text-[oklch(0.45_0.015_120)] leading-relaxed">Más de 25 años defendiendo casos legales en la región.</p>
+          </div>
         </div>
-      </div>
+      </FadeIn>
     </section>
   );
 }
 
+/* ── Contact ─────────────────────────────────────── */
 function Contact() {
   const [sent, setSent] = useState(false);
+  const today = new Date().toISOString().split("T")[0];
+
   return (
-    <section id="contacto" className="mx-auto max-w-7xl px-6 md:px-10 py-24 md:py-36 grid md:grid-cols-12 gap-12">
-      <div className="md:col-span-5">
-        <div className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-6">
-          — Contacto
-        </div>
-        <h2 className="font-serif text-4xl md:text-5xl leading-[1.05] text-balance mb-10">
-          Cuéntenos su caso. Le respondemos en menos de 24 horas.
-        </h2>
+    <section id="contacto" className="bg-[#1C2B22] text-white">
+      <div className="mx-auto max-w-7xl px-6 md:px-10 py-24 md:py-32 grid md:grid-cols-12 gap-12">
+        <FadeIn className="md:col-span-5">
+          <div className="text-xs uppercase tracking-[0.3em] text-[#c9a84c] mb-6">— Contacto</div>
+          <h2 className="font-serif text-4xl md:text-5xl leading-[1.05] mb-10 text-balance">
+            Cuéntenos su caso.
+          </h2>
+          <div className="space-y-6 text-sm">
+            <InfoBlock label="Dirección">
+              <a
+                href="https://maps.app.goo.gl/ZCTcuLwndC5VV6mz6"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-white transition-colors"
+              >
+                Av. Miguel Hidalgo 408, Centro<br />73800 Teziutlán, Puebla
+              </a>
+            </InfoBlock>
+            <InfoBlock label="WhatsApp">
+              <a href={WA_URL} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
+                +52 1 231 122 1030
+              </a>
+            </InfoBlock>
+            <InfoBlock label="Correo">
+              <a href="mailto:lic.camachoteziutlan@hotmail.com" className="hover:text-white transition-colors">
+                lic.camachoteziutlan@hotmail.com
+              </a>
+            </InfoBlock>
+            <InfoBlock label="Horario">
+              Lunes a viernes: 9:00 – 20:00<br />Sábados: 9:00 – 15:00
+            </InfoBlock>
+          </div>
 
-        <div className="space-y-6 text-sm">
-          <Info label="Dirección">
-            Av. Miguel Hidalgo 408, Centro<br />
-            73800 Teziutlán, Puebla
-          </Info>
-          <Info label="Teléfono / WhatsApp">
-            <a href="https://wa.me/5212311221030" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors">+52 1 231 122 1030</a>
-          </Info>
-          <Info label="Correo">
-            <a href="mailto:lic.camachoteziutlan@hotmail.com" className="hover:text-accent transition-colors">
-              lic.camachoteziutlan@hotmail.com
-            </a>
-          </Info>
-          <Info label="Horario">
-            Lunes a viernes: 9:00 – 20:00<br />
-            Sábados: 9:00 – 15:00
-          </Info>
-        </div>
+          {/* Mapa en tiempo real */}
+          <div className="mt-8 overflow-hidden border border-white/10">
+            <iframe
+              title="Ubicación Camacho Y Asociados Abogados"
+              src="https://www.google.com/maps?q=Av+Miguel+Hidalgo+408,+Centro,+73800+Teziutl%C3%A1n,+Pue&output=embed&z=16"
+              width="100%"
+              height="220"
+              style={{ border: 0, display: "block", filter: "grayscale(30%) invert(5%)" }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+          </div>
 
-        <img
-          src={attorneys}
-          alt="Atención al cliente"
-          width={1400}
-          height={1000}
-          loading="lazy"
-          className="mt-12 w-full h-64 object-cover grayscale-[20%]"
-        />
+          {/* Los enlaces sociales fueron movidos a la sección Practice */}
+        </FadeIn>
+
+        <FadeIn delay={150} className="md:col-span-6 md:col-start-7">
+          <form
+            onSubmit={(e) => { e.preventDefault(); setSent(true); }}
+            className="space-y-6"
+          >
+            <CField label="Nombre completo" name="nombre" />
+            <CField label="Teléfono" name="telefono" type="tel" />
+
+            {/* Area selector */}
+            <div>
+              <label className="block text-xs uppercase tracking-[0.2em] text-white/45 mb-2">
+                Área de interés
+              </label>
+              <select
+                name="area"
+                className="w-full bg-transparent border-b border-white/20 focus:border-white/60 outline-none py-2 text-sm text-white/80 transition-colors appearance-none cursor-pointer"
+              >
+                <option value="" className="text-black bg-white">Seleccione...</option>
+                <option value="civil" className="text-black bg-white">Derecho Civil</option>
+                <option value="familiar" className="text-black bg-white">Derecho Familiar</option>
+                <option value="mercantil" className="text-black bg-white">Derecho Mercantil</option>
+                <option value="laboral" className="text-black bg-white">Derecho Laboral</option>
+                <option value="penal" className="text-black bg-white">Amparo y Penal</option>
+                <option value="otro" className="text-black bg-white">No estoy seguro</option>
+              </select>
+            </div>
+
+            {/* Date picker */}
+            <div>
+              <label className="block text-xs uppercase tracking-[0.2em] text-white/45 mb-2">
+                Fecha preferida para la consulta
+              </label>
+              <input
+                type="date"
+                name="fecha"
+                min={today}
+                className="w-full bg-transparent border-b border-white/20 focus:border-white/60 outline-none py-2 text-sm text-white/80 transition-colors [color-scheme:dark]"
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="w-full bg-[#B0623B] text-white py-4 text-xs uppercase tracking-[0.3em] hover:bg-[#963f1e] transition-colors"
+            >
+              {sent ? "Mensaje enviado — le contactaremos pronto" : "Enviar consulta"}
+            </button>
+            <p className="text-xs text-white/30 leading-relaxed">
+              La información compartida es estrictamente confidencial.
+            </p>
+          </form>
+        </FadeIn>
       </div>
-
-      <form
-        onSubmit={(e) => { e.preventDefault(); setSent(true); }}
-        className="md:col-span-6 md:col-start-7 bg-card border border-border p-8 md:p-10 space-y-6"
-      >
-        <Field label="Nombre completo" name="nombre" />
-        <div className="grid sm:grid-cols-2 gap-6">
-          <Field label="Teléfono" name="telefono" type="tel" />
-          <Field label="Correo" name="correo" type="email" />
-        </div>
-        <Field label="Asunto" name="asunto" />
-        <div>
-          <label className="block text-xs uppercase tracking-[0.2em] text-muted-foreground mb-2">
-            Describa su caso
-          </label>
-          <textarea
-            name="mensaje"
-            rows={5}
-            required
-            className="w-full bg-transparent border-b border-border focus:border-foreground outline-none py-2 text-base resize-none transition-colors"
-          />
-        </div>
-        <button
-          type="submit"
-          className="w-full bg-foreground text-background py-4 text-xs uppercase tracking-[0.3em] hover:bg-[oklch(0.32_0.06_155)] transition-colors"
-        >
-          {sent ? "Mensaje enviado ✓" : "Enviar consulta"}
-        </button>
-        <p className="text-xs text-muted-foreground leading-relaxed">
-          La información compartida en este formulario es estrictamente confidencial y
-          se utiliza únicamente para responder a su consulta.
-        </p>
-      </form>
     </section>
   );
 }
 
-function Field({ label, name, type = "text" }: { label: string; name: string; type?: string }) {
+function CField({ label, name, type = "text" }: { label: string; name: string; type?: string }) {
   return (
     <div>
-      <label className="block text-xs uppercase tracking-[0.2em] text-muted-foreground mb-2">
-        {label}
-      </label>
+      <label className="block text-xs uppercase tracking-[0.2em] text-white/45 mb-2">{label}</label>
       <input
         type={type}
         name={name}
         required
-        className="w-full bg-transparent border-b border-border focus:border-foreground outline-none py-2 text-base transition-colors"
+        className="w-full bg-transparent border-b border-white/20 focus:border-white/60 outline-none py-2 text-sm text-white/80 transition-colors"
       />
     </div>
   );
 }
 
-function Info({ label, children }: { label: string; children: React.ReactNode }) {
+function InfoBlock({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div>
-      <div className="text-xs uppercase tracking-[0.25em] text-accent mb-2">{label}</div>
-      <div className="text-foreground leading-relaxed">{children}</div>
+      <div className="text-xs uppercase tracking-[0.25em] text-[#c9a84c] mb-1">{label}</div>
+      <div className="text-white/65 leading-relaxed">{children}</div>
     </div>
   );
 }
 
+/* ── Footer ──────────────────────────────────────── */
 function Footer() {
   return (
-    <footer className="border-t border-border">
-      <div className="mx-auto max-w-7xl px-6 md:px-10 py-10 flex flex-col md:flex-row justify-between gap-4 text-xs text-muted-foreground tracking-wide">
-        <div className="font-serif text-base text-foreground">
-          Camacho &amp; Asociados Abogados
-        </div>
+    <footer className="bg-[#111a15] border-t border-white/10">
+      <div className="mx-auto max-w-7xl px-6 md:px-10 py-8 flex flex-col md:flex-row justify-between gap-4 text-xs text-white/35 tracking-wide">
+        <div className="font-serif text-sm text-[#c9a84c]">Camacho Y Asociados Abogados</div>
         <div>© {new Date().getFullYear()} — Todos los derechos reservados.</div>
         <div className="uppercase tracking-[0.25em]">Teziutlán · Puebla · México</div>
       </div>

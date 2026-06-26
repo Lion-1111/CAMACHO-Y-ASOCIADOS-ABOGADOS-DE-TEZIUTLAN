@@ -10,7 +10,7 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
-import { reportLovableError } from "../lib/lovable-error-reporting";
+import { reportError } from "../lib/error-reporting";
 
 function NotFoundComponent() {
   return (
@@ -38,7 +38,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
   const router = useRouter();
   useEffect(() => {
-    reportLovableError(error, { boundary: "tanstack_root_error_component" });
+    reportError(error, { boundary: "root_error_component" });
   }, [error]);
 
   return (
@@ -77,18 +77,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "A professional website design for a law firm, showcasing services and contact information." },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "A professional website design for a law firm, showcasing services and contact information." },
+      { title: "Abogado Camacho" },
+      { name: "description", content: "Despacho jurídico profesional — servicios legales de confianza." },
+      { property: "og:title", content: "Abogado Camacho" },
+      { property: "og:description", content: "Despacho jurídico profesional — servicios legales de confianza." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
-      { name: "twitter:title", content: "Lovable App" },
-      { name: "twitter:description", content: "A professional website design for a law firm, showcasing services and contact information." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/e5c3c2d4-7cf6-4626-8628-a4669a7e192b/id-preview-615dc26b--37e0a364-e856-4848-a487-ca0bead02b2a.lovable.app-1782403586607.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/e5c3c2d4-7cf6-4626-8628-a4669a7e192b/id-preview-615dc26b--37e0a364-e856-4848-a487-ca0bead02b2a.lovable.app-1782403586607.png" },
+      { name: "twitter:title", content: "Abogado Camacho" },
+      { name: "twitter:description", content: "Despacho jurídico profesional — servicios legales de confianza." },
     ],
     links: [
       {

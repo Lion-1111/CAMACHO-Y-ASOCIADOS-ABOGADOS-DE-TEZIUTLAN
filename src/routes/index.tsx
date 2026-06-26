@@ -79,8 +79,8 @@ function Hero() {
             <em className="text-[oklch(0.82_0.1_78)] font-normal">que es justo.</em>
           </h1>
           <p className="mt-8 max-w-xl text-base md:text-lg text-[oklch(0.88_0.01_90)]/80 leading-relaxed">
-            Despacho jurídico al servicio de quienes buscan una representación legal seria,
-            estratégica y comprometida con el resultado.
+            El despacho jurídico de referencia en Teziutlán, Puebla. Resultados claros,
+            estrategia precisa y la defensa que su caso merece.
           </p>
           <div className="mt-10 flex flex-wrap gap-4 items-center">
             <a

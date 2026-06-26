@@ -40,7 +40,7 @@ function Nav() {
     <header className="absolute top-0 left-0 right-0 z-20">
       <div className="mx-auto max-w-7xl px-6 md:px-10 py-6 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <img src={eagleEmblem} alt="Emblema" width={36} height={36} className="w-9 h-9 object-contain" />
+          <img src={eagleEmblem} alt="Emblema" width={108} height={108} className="w-28 h-28 object-contain" />
           <div className="font-serif text-lg tracking-wide text-foreground">
             Camacho <span className="text-muted-foreground">&amp;</span> Asociados
           </div>

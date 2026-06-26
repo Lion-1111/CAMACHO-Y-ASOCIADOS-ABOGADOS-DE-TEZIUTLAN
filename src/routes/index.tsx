@@ -3,7 +3,7 @@ import { useState } from "react";
 import heroOffice from "@/assets/hero-office.jpg";
 import lawBooks from "@/assets/law-books.jpg";
 import attorneys from "@/assets/attorneys.jpg";
-import eagleEmblem from "@/assets/eagle-emblem.png";
+import eagleEmblem from "@/assets/user-eagle-clean.png";
 import logoAsset from "@/assets/logo-camacho.jpg.asset.json";
 
 export const Route = createFileRoute("/")({

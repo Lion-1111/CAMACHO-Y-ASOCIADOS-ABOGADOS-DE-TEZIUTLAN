@@ -499,6 +499,11 @@ function Reviews() {
       badge: "Local Guide",
       stars: 4,
       text: "Buen trato a las personas, muy profesionales"
+    {
+      name: "Jose Alfredo Ramirez",
+      badge: "NUEVA",
+      stars: 5,
+      text: "Tuve mi primera asesoría y me dieron un panorama realista, . Me explicaron costos y tiempos desde el día uno. Se agradece la honestidad."
     },
     // Repetimos para el efecto de carrusel infinito
     {
@@ -528,7 +533,16 @@ function Reviews() {
             i < r.stars ? <IconStar key={i} /> : <IconStarOutline key={i} />
           ))}
         </div>
-        <p className="text-sm text-gray-600 leading-relaxed">"{r.text}"</p>
+        <p className="text-sm text-gray-600 leading-relaxed mb-5">"{r.text}"</p>
+        
+        <a
+          href="https://maps.app.goo.gl/vVgzB8vqXbLcGNAE6"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1.5 text-xs text-[#c9a84c] hover:text-[#B0623B] font-semibold uppercase tracking-widest transition-colors mt-auto"
+        >
+          Escribe tu opinión en Google <span aria-hidden="true">→</span>
+        </a>
       </div>
     </div>
   );

@@ -499,6 +499,7 @@ function Reviews() {
       badge: "Local Guide",
       stars: 4,
       text: "Buen trato a las personas, muy profesionales"
+    },
     {
       name: "Jose Alfredo Ramirez",
       badge: "NUEVA",

@@ -77,20 +77,24 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Abogado Camacho" },
-      { name: "description", content: "Despacho jurídico profesional — servicios legales de confianza." },
-      { property: "og:title", content: "Abogado Camacho" },
-      { property: "og:description", content: "Despacho jurídico profesional — servicios legales de confianza." },
+      { title: "Abogado en Teziutlán Puebla | Camacho y Asociados — Derecho Penal, Familiar, Civil" },
+      { name: "description", content: "Despacho jurídico en Teziutlán, Puebla. Atendemos casos de Derecho Penal, Familiar, Civil, Mercantil y Laboral en Teziutlán, Chignautla, Xiutetelco, Hueyapan, Hueytamalco y sus alrededores. Más de 25 años de experiencia." },
+      { name: "theme-color", content: "#1C2B22" },
+      { name: "keywords", content: "abogado Teziutlán, abogado Puebla, abogado Chignautla, abogado Xiutetelco, derecho penal Teziutlán, derecho familiar Teziutlán, divorcios Teziutlán, defensa penal Puebla, asesoría jurídica Sierra Norte Puebla" },
+      { property: "og:title", content: "Camacho y Asociados Abogados — Teziutlán, Puebla" },
+      { property: "og:description", content: "Despacho jurídico de confianza en Teziutlán. Derecho Penal, Familiar, Civil, Mercantil y Laboral. Atendemos toda la Sierra Norte de Puebla." },
       { property: "og:type", content: "website" },
+      { property: "og:locale", content: "es_MX" },
       { name: "twitter:card", content: "summary" },
-      { name: "twitter:title", content: "Abogado Camacho" },
-      { name: "twitter:description", content: "Despacho jurídico profesional — servicios legales de confianza." },
+      { name: "twitter:title", content: "Camacho y Asociados Abogados — Teziutlán, Puebla" },
+      { name: "twitter:description", content: "Despacho jurídico de confianza en Teziutlán, Puebla. Más de 25 años de experiencia." },
     ],
     links: [
       {
         rel: "stylesheet",
         href: appCss,
       },
+      { rel: "canonical", href: "https://camachoyasociados.com/" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "" },
       {
@@ -106,10 +110,51 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 });
 
 function RootShell({ children }: { children: ReactNode }) {
+  const schemaOrg = {
+    "@context": "https://schema.org",
+    "@type": "LegalService",
+    "name": "Camacho y Asociados Abogados",
+    "image": "https://camachoyasociados.com/catedral-teziutlan.jpg",
+    "url": "https://camachoyasociados.com/",
+    "telephone": "+5212311221030",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Av. Miguel Hidalgo 408, Centro",
+      "addressLocality": "Teziutlán",
+      "addressRegion": "Puebla",
+      "postalCode": "73800",
+      "addressCountry": "MX"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 19.816667,
+      "longitude": -97.35
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        "opens": "09:00",
+        "closes": "20:00"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": "Saturday",
+        "opens": "09:00",
+        "closes": "15:00"
+      }
+    ],
+    "priceRange": "$$"
+  };
+
   return (
-    <html lang="en">
+    <html lang="es">
       <head>
         <HeadContent />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaOrg) }}
+        />
       </head>
       <body>
         {children}

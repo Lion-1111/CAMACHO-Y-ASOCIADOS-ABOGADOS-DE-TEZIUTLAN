@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect, useRef, type ReactNode } from "react";
 import heroOffice from "@/assets/hero-office.jpg";
 import eagleEmblem from "@/assets/user-eagle-clean.png";
+import catedralImg from "@/assets/catedral-teziutlan.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -170,9 +171,11 @@ function Index() {
       <Nav />
       <Hero />
       <Marquee />
-      <About />
+      <WhyUs />
       <Practice />
       <Reviews />
+      <Team />
+      <Coverage />
       <Contact />
       <Footer />
       <FloatingWhatsApp />
@@ -222,6 +225,17 @@ function Nav() {
           <a href="#practica" className="hover:text-white transition-colors">Áreas</a>
           <a href="#contacto" className="hover:text-white transition-colors">Contacto</a>
         </nav>
+        {/* Ubicación en nav — visible en escritorio */}
+        <a
+          href="https://maps.app.goo.gl/ZCTcuLwndC5VV6mz6"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hidden md:flex items-center gap-1.5 text-[10px] uppercase tracking-[0.15em] text-white/60 hover:text-[#c9a84c] transition mt-2"
+          aria-label="Ver ubicación en Google Maps"
+        >
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+          Teziutlán, Puebla
+        </a>
         <a
           href="#contacto"
           className="text-[10px] md:text-xs uppercase tracking-[0.15em] border-b border-white/30 pb-1 text-white/70 hover:text-white hover:border-white transition mt-2"
@@ -245,29 +259,47 @@ function Hero() {
       <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-black/20 to-black/80" />
       <div className="relative z-10 mx-auto max-w-7xl px-6 md:px-10 pb-20 md:pb-28 w-full">
         <div className="max-w-3xl">
-          <div className="text-xs uppercase tracking-[0.3em] text-[#c9a84c] mb-6 flex flex-wrap items-center gap-3">
-            <span>Teziutlán · Puebla · Desde 1998</span>
-            <span className="hidden sm:inline-block text-[#c9a84c]/50 text-[6px]">◆</span>
-            <BusinessStatus />
-          </div>
+          <FadeIn delay={100}>
+            <div className="text-xs uppercase tracking-[0.3em] text-[#c9a84c] mb-6 flex flex-wrap items-center gap-3">
+              <span>Teziutlán · Puebla · Desde 1998</span>
+              <span className="hidden sm:inline-block text-[#c9a84c]/50 text-[6px]">◆</span>
+              <BusinessStatus />
+            </div>
+          </FadeIn>
+          
           <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl leading-[0.95] text-white text-balance">
-            Defendemos lo que es justo.
+            <FadeIn delay={200}>Defendemos</FadeIn>
+            <FadeIn delay={300}>tu caso en toda</FadeIn>
+            <FadeIn delay={400} className="text-[#c9a84c]">la región.</FadeIn>
           </h1>
-          <p className="mt-8 max-w-xl text-base md:text-lg text-white/70 leading-relaxed">
-            El despacho jurídico de referencia en Teziutlán, Puebla. Resultados claros,
-            estrategia precisa y la defensa que su caso merece.
-          </p>
-          <div className="mt-10">
-            <a
-              href={WA_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 border border-[#c9a84c]/70 text-[#c9a84c] px-8 py-4 text-xs uppercase tracking-[0.25em] backdrop-blur-sm bg-white/5 hover:bg-[#c9a84c]/10 hover:border-[#c9a84c] transition-all duration-300 rounded-sm"
-            >
-              <IconWhatsApp />
-              Agendar Consulta
-            </a>
-          </div>
+          
+          <FadeIn delay={500}>
+            <p className="mt-8 max-w-xl text-base md:text-lg text-white/80 leading-relaxed font-medium">
+              El despacho jurídico de referencia en Teziutlán. Resultados claros, estrategia precisa y la defensa penal, civil y familiar que tu caso merece.
+            </p>
+          </FadeIn>
+          
+          <FadeIn delay={600}>
+            <div className="mt-10 flex flex-wrap gap-4">
+              <a
+                href={WA_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-3 bg-[#c9a84c] text-[#1C2B22] font-bold px-8 py-4 text-xs uppercase tracking-[0.25em] hover:bg-[#dbb95a] transition-colors rounded-sm shadow-lg"
+              >
+                <IconWhatsApp />
+                Agendar Consulta
+              </a>
+              <a
+                href="https://maps.app.goo.gl/ZCTcuLwndC5VV6mz6"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-3 bg-white text-[#1C2B22] font-bold px-8 py-4 text-xs uppercase tracking-[0.25em] hover:bg-gray-100 transition-colors rounded-sm shadow-lg"
+              >
+                📍 Ver dirección
+              </a>
+            </div>
+          </FadeIn>
         </div>
       </div>
     </section>
@@ -318,30 +350,47 @@ function Marquee() {
   );
 }
 
-/* ── About ───────────────────────────────────────── */
-function About() {
+/* ── WhyUs (Sustituye a About) ────────────────────── */
+function WhyUs() {
   return (
     <section id="nosotros" className="mx-auto max-w-7xl px-6 md:px-10 py-24 md:py-32">
       <FadeIn>
         <div className="grid md:grid-cols-12 gap-12">
           <div className="md:col-span-5">
-            <div className="text-xs uppercase tracking-[0.3em] text-[oklch(0.45_0.015_120)] mb-6">
-              — Nosotros
+            <div className="text-xs uppercase tracking-[0.3em] text-[#B0623B] mb-6">
+              — Por qué elegirnos
             </div>
-            <h2 className="font-serif text-4xl md:text-5xl leading-[1.05] text-balance">
-              Una práctica construida sobre la confianza y el rigor.
+            <h2 className="font-serif text-4xl md:text-5xl leading-[1.05] text-balance mb-6">
+              ¿Enfrentando un proceso legal y no sabe por dónde empezar?
             </h2>
+            <p className="text-base text-[oklch(0.45_0.015_120)] leading-relaxed">
+              Más de 25 años de experiencia en Teziutlán y la región nos respaldan. Resultados comprobables, estrategia honesta.
+            </p>
           </div>
-          <div className="md:col-span-6 md:col-start-7 space-y-5 text-base md:text-lg leading-relaxed text-[oklch(0.45_0.015_120)]">
-            <p>
-              Camacho y Asociados Abogados es un despacho jurídico independiente con sede en
-              Teziutlán, Puebla. Atendemos a personas, familias y empresas que requieren
-              asesoría legal precisa, honesta y orientada a soluciones reales.
-            </p>
-            <p>
-              Defendemos a cualquier persona que necesite representación justa y equitativa,
-              con la misma seriedad con la que tratamos los asuntos más complejos.
-            </p>
+          
+          <div className="md:col-span-6 md:col-start-7 grid sm:grid-cols-2 gap-8">
+            <div className="bg-white p-6 rounded-xl border border-black/5 shadow-sm">
+              <div className="text-[#c9a84c] mb-4"><IconShield /></div>
+              <h4 className="font-serif text-xl mb-2">Confidencialidad</h4>
+              <p className="text-sm text-gray-500">Garantizada desde su primera llamada. Su información está segura.</p>
+            </div>
+            <div className="bg-white p-6 rounded-xl border border-black/5 shadow-sm">
+              <div className="text-[#c9a84c] mb-4">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+              </div>
+              <h4 className="font-serif text-xl mb-2">Respuesta Rápida</h4>
+              <p className="text-sm text-gray-500">Atención prioritaria y respuestas claras el mismo día.</p>
+            </div>
+            <div className="bg-white p-6 rounded-xl border border-black/5 shadow-sm">
+              <div className="text-[#c9a84c] mb-4"><IconHome /></div>
+              <h4 className="font-serif text-xl mb-2">Presencia Local</h4>
+              <p className="text-sm text-gray-500">Despacho establecido en Teziutlán con amplio conocimiento de la región.</p>
+            </div>
+            <div className="bg-white p-6 rounded-xl border border-black/5 shadow-sm">
+              <div className="text-[#c9a84c] mb-4"><IconUser /></div>
+              <h4 className="font-serif text-xl mb-2">Consulta inicial</h4>
+              <p className="text-sm text-gray-500">Analizamos la viabilidad de su caso con honestidad y transparencia.</p>
+            </div>
           </div>
         </div>
       </FadeIn>
@@ -397,50 +446,40 @@ function Practice() {
         </p>
       </FadeIn>
 
-      {/* Carrusel Deslizable en Móvil / Grid en Escritorio */}
-      <style>{`
-        .hide-scrollbar::-webkit-scrollbar { display: none; }
-        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-      `}</style>
-
-      {/* px-6 on mobile so the first card aligns with text, but allows the next to peek */}
-      <div className="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar gap-4 pb-8 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-px md:bg-[oklch(0.86_0.012_90)] md:pb-0 px-6 md:px-0">
+      {/* Grid para móvil y escritorio (eliminado carrusel horizontal) */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-px md:bg-[oklch(0.86_0.012_90)] mt-8">
         {areas.map((a, i) => (
-          <div key={a.t} className="snap-start shrink-0 w-[80vw] sm:w-[50vw] md:w-auto">
-            <FadeIn delay={i * 70} className="h-full">
-              {/* bg-[#E6EAE6] da un tono verde muy elegante y sutil, distinto del crema */}
-              <div className="bg-[#E6EAE6] md:bg-[oklch(0.97_0.008_90)] border border-black/5 md:border-none p-8 md:p-10 h-full flex flex-col rounded-xl md:rounded-none shadow-sm md:shadow-none">
-                <div className="text-[oklch(0.35_0.015_150)] mb-5">{a.icon}</div>
-                <h3 className="font-serif text-xl mb-2">{a.t}</h3>
-                <p className="text-sm text-[oklch(0.45_0.015_120)] leading-relaxed">{a.d}</p>
-              </div>
-            </FadeIn>
-          </div>
+          <FadeIn key={a.t} delay={i * 100} className="h-full">
+            <div className="bg-[#E6EAE6] md:bg-[oklch(0.97_0.008_90)] border border-black/5 md:border-none p-8 md:p-10 h-full flex flex-col rounded-xl md:rounded-none relative overflow-hidden group">
+              <span className="absolute top-6 right-6 text-[10px] font-bold text-black/10">0{i + 1}</span>
+              <div className="text-[oklch(0.35_0.015_150)] mb-5 transition-transform group-hover:scale-110 group-hover:text-[#B0623B] duration-300 origin-left">{a.icon}</div>
+              <h3 className="font-serif text-xl mb-2">{a.t}</h3>
+              <p className="text-sm text-[oklch(0.45_0.015_120)] leading-relaxed">{a.d}</p>
+            </div>
+          </FadeIn>
         ))}
 
         {/* CTA card */}
-        <div className="snap-start shrink-0 w-[80vw] sm:w-[50vw] md:w-auto pr-6 md:pr-0">
-          <FadeIn delay={areas.length * 70} className="h-full">
-            <div className="bg-[#1C2B22] p-8 md:p-10 h-full flex flex-col justify-between min-h-[200px] rounded-xl md:rounded-none shadow-sm md:shadow-none">
-              <div>
-                <p className="font-serif text-xl text-white mb-3">
-                  ¿No está seguro cuál es su caso?
-                </p>
-                <p className="text-sm text-white/60 leading-relaxed">
-                  Cuéntenos qué pasó en la primera consulta, sin costo, y le decimos qué camino conviene.
-                </p>
-              </div>
-              <a
-                href="https://wa.me/5212311221030"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-8 text-sm text-[#c9a84c] hover:text-white transition-colors tracking-wide"
-              >
-                Escribir por WhatsApp →
-              </a>
+        <FadeIn delay={areas.length * 100} className="h-full sm:col-span-2 lg:col-span-1">
+          <div className="bg-[#1C2B22] p-8 md:p-10 h-full flex flex-col justify-between min-h-[200px] rounded-xl md:rounded-none">
+            <div>
+              <p className="font-serif text-xl text-white mb-3">
+                ¿No está seguro cuál es su caso?
+              </p>
+              <p className="text-sm text-white/70 leading-relaxed">
+                Cuéntenos qué pasó en la primera consulta, sin costo, y le decimos qué camino conviene.
+              </p>
             </div>
-          </FadeIn>
-        </div>
+            <a
+              href={WA_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-8 inline-flex items-center gap-2 text-sm text-[#c9a84c] font-semibold hover:text-white transition-colors tracking-wide"
+            >
+              Escribir por WhatsApp →
+            </a>
+          </div>
+        </FadeIn>
       </div>
     </section>
   );
@@ -448,55 +487,174 @@ function Practice() {
 
 /* ── Reviews ─────────────────────────────────────── */
 function Reviews() {
+  const reviewsData = [
+    {
+      name: "José Eliuh Guzmán Flores",
+      badge: "Local Guide",
+      stars: 5,
+      text: "Te tratan de la mejor manera, te atienden rápido y te resuelven de la misma manera, los Lic. Te hacen qué todo sea comprensible Y si dan resultados."
+    },
+    {
+      name: "Hector Bello",
+      badge: "Local Guide",
+      stars: 4,
+      text: "Buen trato a las personas, muy profesionales"
+    },
+    // Repetimos para el efecto de carrusel infinito
+    {
+      name: "José Eliuh Guzmán Flores",
+      badge: "Local Guide",
+      stars: 5,
+      text: "Te tratan de la mejor manera, te atienden rápido y te resuelven de la misma manera, los Lic. Te hacen qué todo sea comprensible Y si dan resultados."
+    }
+  ];
+
+  const ReviewCard = ({ r }: { r: any }) => (
+    <div className="bg-white border border-black/5 p-8 rounded-xl shrink-0 w-[300px] md:w-[380px] shadow-sm flex flex-col justify-between mx-4 hover:shadow-md transition-shadow">
+      <div>
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center font-bold text-gray-500">
+            {r.name.charAt(0)}
+          </div>
+          <div>
+            <p className="font-semibold text-sm">{r.name}</p>
+            <p className="text-[10px] text-gray-500 uppercase tracking-wider flex items-center gap-1">
+              <IconGoogle /> {r.badge}
+            </p>
+          </div>
+        </div>
+        <div className="flex gap-1 mb-4 text-[#B0623B]">
+          {[...Array(5)].map((_, i) => (
+            i < r.stars ? <IconStar key={i} /> : <IconStarOutline key={i} />
+          ))}
+        </div>
+        <p className="text-sm text-gray-600 leading-relaxed">"{r.text}"</p>
+      </div>
+    </div>
+  );
+
   return (
-    <section className="mx-auto max-w-7xl px-6 md:px-10 pb-20 md:pb-28">
+    <section className="py-20 md:py-28 bg-[#f0ece1] border-y border-[oklch(0.86_0.012_90)] overflow-hidden">
+      <FadeIn className="mx-auto max-w-7xl px-6 md:px-10 mb-12">
+        <h2 className="font-serif text-4xl md:text-5xl text-balance mb-4 text-center">
+          Lo que dicen quienes ya nos consultaron
+        </h2>
+        <p className="text-center text-sm text-[oklch(0.45_0.015_120)] max-w-xl mx-auto">
+          Reseñas reales de clientes en Google. Tu confianza nos respalda.
+        </p>
+      </FadeIn>
+      
+      <div className="flex">
+        <style>{`
+          @keyframes slideReviews {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+          }
+          .animate-reviews {
+            animation: slideReviews 35s linear infinite;
+          }
+          .animate-reviews:hover {
+            animation-play-state: paused;
+          }
+        `}</style>
+        
+        <div className="flex animate-reviews shrink-0">
+          {reviewsData.map((r, i) => <ReviewCard key={i} r={r} />)}
+        </div>
+        <div className="flex animate-reviews shrink-0">
+          {reviewsData.map((r, i) => <ReviewCard key={`dup-${i}`} r={r} />)}
+        </div>
+        <div className="flex animate-reviews shrink-0">
+          {reviewsData.map((r, i) => <ReviewCard key={`dup2-${i}`} r={r} />)}
+        </div>
+      </div>
+      
+      <div className="mt-12 flex justify-center">
+        <a
+          href="https://maps.app.goo.gl/ZCTcuLwndC5VV6mz6"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-3 bg-[#1C2B22] text-white px-7 py-4 text-xs font-semibold uppercase tracking-widest hover:bg-black transition-colors rounded-sm shadow-md"
+        >
+          <IconGoogle />
+          Calificar en Google
+        </a>
+      </div>
+    </section>
+  );
+}
+
+/* ── Team ────────────────────────────────────────── */
+function Team() {
+  return (
+    <section className="mx-auto max-w-7xl px-6 md:px-10 py-20 md:py-28">
       <FadeIn>
-        <div className="bg-[#f0ece1] border border-[oklch(0.86_0.012_90)] p-8 md:p-12 lg:p-16 rounded-xl flex flex-col md:flex-row gap-12 justify-between items-center shadow-sm">
-          <div className="max-w-2xl">
-            <div className="flex gap-1.5 mb-6">
-              <IconStar /><IconStar /><IconStar /><IconStar /><IconStarOutline />
-            </div>
-            <h2 className="font-serif text-4xl md:text-5xl text-balance mb-5">
-              Lo que dicen quienes ya nos consultaron
-            </h2>
-            <p className="text-sm md:text-base text-[oklch(0.35_0.015_120)] font-medium mb-6">
-              4.0 de 5 — calificación en Google, basada en reseñas reales de clientes en Teziutlán.
-            </p>
-            <p className="text-sm md:text-base text-[oklch(0.45_0.015_120)] mb-10 max-w-xl">
-              Si ya trabajaste con nosotros, tu opinión ayuda a alguien más a
-              decidir con confianza. Toma menos de un minuto.
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <a
-                href="https://maps.app.goo.gl/ZCTcuLwndC5VV6mz6"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-3 bg-[#1C2B22] text-white px-7 py-4 text-xs font-semibold uppercase tracking-widest hover:bg-black transition-colors rounded-sm"
-              >
-                <IconGoogle />
-                Calificar en Google
-              </a>
-              <a
-                href={WA_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-3 bg-[#25D366] text-white px-7 py-4 text-xs font-semibold uppercase tracking-widest hover:bg-[#1ebe57] transition-colors rounded-sm"
-              >
-                <IconWhatsApp />
-                Agendar por WhatsApp
-              </a>
+        <div className="text-xs uppercase tracking-[0.3em] text-[#B0623B] mb-6">
+          — Nuestro Equipo
+        </div>
+        <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="aspect-[4/5] bg-gray-200 rounded-xl overflow-hidden relative shadow-inner">
+             {/* Placeholder para foto del abogado */}
+            <div className="absolute inset-0 flex flex-col items-center justify-center text-gray-400">
+              <IconUser />
+              <p className="mt-4 text-sm font-medium uppercase tracking-widest">[Foto del Abogado]</p>
             </div>
           </div>
-
-          <div className="hidden lg:flex shrink-0 bg-white p-10 rounded-lg shadow-sm border border-black/5 items-center justify-center max-w-[280px] text-center flex-col gap-4">
-            <div className="w-16 h-16 bg-[oklch(0.97_0.008_90)] rounded-full flex items-center justify-center mb-2">
-              <IconStar />
+          <div>
+            <h2 className="font-serif text-4xl md:text-5xl text-balance mb-6">
+              Licenciado Camacho
+            </h2>
+            <div className="space-y-4 text-base text-[oklch(0.45_0.015_120)] leading-relaxed">
+              <p>
+                Con más de 25 años de experiencia litigando en la región, dirigiendo defensas estratégicas en materia Penal, Civil, Familiar y Mercantil.
+              </p>
+              <p>
+                Comprometido con la ética profesional y la transparencia, garantizando que cada cliente entienda su situación y las opciones viables para resolver su conflicto legal.
+              </p>
             </div>
-            <p className="font-serif text-xl">Tu confianza nos respalda</p>
-            <p className="text-sm text-[oklch(0.45_0.015_120)] leading-relaxed">Más de 25 años defendiendo casos legales en la región.</p>
+            <div className="mt-8 pt-8 border-t border-black/10">
+              <p className="text-sm font-semibold text-[#1C2B22] uppercase tracking-wider flex items-center gap-2">
+                <span className="w-2 h-2 bg-[#c9a84c] rounded-full"></span>
+                Atención directa y personalizada
+              </p>
+            </div>
           </div>
         </div>
       </FadeIn>
+    </section>
+  );
+}
+
+/* ── Coverage ────────────────────────────────────── */
+function Coverage() {
+  return (
+    <section className="relative py-32 bg-[#111a15] overflow-hidden">
+      {/* Background image - Catedral */}
+      <div className="absolute inset-0 opacity-20 mix-blend-luminosity">
+        <img src={catedralImg} alt="Catedral de Teziutlán Puebla" className="w-full h-full object-cover" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-green-900/50 to-transparent"></div>
+      </div>
+      
+      <div className="relative z-10 mx-auto max-w-7xl px-6 md:px-10 text-center">
+        <FadeIn>
+          <div className="flex justify-center mb-6 text-[#c9a84c]"><IconShield /></div>
+          <h2 className="font-serif text-4xl md:text-5xl text-white mb-6">
+            Cobertura Regional
+          </h2>
+          <p className="text-lg text-white/70 max-w-2xl mx-auto leading-relaxed mb-10">
+            Con sede en Teziutlán, atendemos estratégicamente casos en toda la región: 
+            <strong className="text-white font-normal block mt-2"> Teziutlán, Chignautla, Xiutetelco, Hueyapan, Hueytamalco y sus alrededores.</strong>
+          </p>
+          <a
+            href="https://maps.app.goo.gl/ZCTcuLwndC5VV6mz6"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-3 bg-[#c9a84c] text-[#1C2B22] font-bold px-8 py-4 text-xs uppercase tracking-[0.25em] hover:bg-white transition-colors rounded-sm shadow-lg"
+          >
+            📍 Ver ubicación en Google Maps
+          </a>
+        </FadeIn>
+      </div>
     </section>
   );
 }
@@ -514,6 +672,18 @@ function Contact() {
           <h2 className="font-serif text-4xl md:text-5xl leading-[1.05] mb-10 text-balance">
             Cuéntenos su caso.
           </h2>
+
+          {/* Botón de dirección destacado */}
+          <a
+            href="https://maps.app.goo.gl/ZCTcuLwndC5VV6mz6"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 bg-[#c9a84c] text-[#1C2B22] font-semibold px-5 py-3 rounded-sm text-xs uppercase tracking-widest hover:bg-[#dbb95a] transition-colors mb-8"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+            Ver dirección en Google Maps
+          </a>
+
           <div className="space-y-6 text-sm">
             <InfoBlock label="Dirección">
               <a

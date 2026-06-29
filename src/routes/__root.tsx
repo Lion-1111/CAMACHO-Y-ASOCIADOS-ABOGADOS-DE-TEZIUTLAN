@@ -102,6 +102,47 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap",
       },
     ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "LegalService",
+          "name": "Camacho y Asociados Abogados",
+          "image": "https://camachoyasociados.com/catedral-teziutlan.jpg",
+          "url": "https://camachoyasociados.com/",
+          "telephone": "+5212311221030",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Av. Miguel Hidalgo 408, Centro",
+            "addressLocality": "Teziutlán",
+            "addressRegion": "Puebla",
+            "postalCode": "73800",
+            "addressCountry": "MX"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 19.816667,
+            "longitude": -97.35
+          },
+          "openingHoursSpecification": [
+            {
+              "@type": "OpeningHoursSpecification",
+              "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+              "opens": "09:00",
+              "closes": "20:00"
+            },
+            {
+              "@type": "OpeningHoursSpecification",
+              "dayOfWeek": "Saturday",
+              "opens": "09:00",
+              "closes": "15:00"
+            }
+          ],
+          "priceRange": "$$"
+        })
+      }
+    ]
   }),
   shellComponent: RootShell,
   component: RootComponent,
@@ -110,51 +151,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 });
 
 function RootShell({ children }: { children: ReactNode }) {
-  const schemaOrg = {
-    "@context": "https://schema.org",
-    "@type": "LegalService",
-    "name": "Camacho y Asociados Abogados",
-    "image": "https://camachoyasociados.com/catedral-teziutlan.jpg",
-    "url": "https://camachoyasociados.com/",
-    "telephone": "+5212311221030",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "Av. Miguel Hidalgo 408, Centro",
-      "addressLocality": "Teziutlán",
-      "addressRegion": "Puebla",
-      "postalCode": "73800",
-      "addressCountry": "MX"
-    },
-    "geo": {
-      "@type": "GeoCoordinates",
-      "latitude": 19.816667,
-      "longitude": -97.35
-    },
-    "openingHoursSpecification": [
-      {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-        "opens": "09:00",
-        "closes": "20:00"
-      },
-      {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": "Saturday",
-        "opens": "09:00",
-        "closes": "15:00"
-      }
-    ],
-    "priceRange": "$$"
-  };
-
   return (
     <html lang="es">
       <head>
         <HeadContent />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaOrg) }}
-        />
       </head>
       <body>
         {children}

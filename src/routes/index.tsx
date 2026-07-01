@@ -200,8 +200,8 @@ function Index() {
       <Nav />
       <Hero />
       <Marquee />
-      <WhyUs />
       <Practice />
+      <WhyUs />
       <Process />
       <Results />
       <Reviews />
@@ -248,6 +248,7 @@ function Nav() {
           src={eagleEmblem}
           alt="Emblema Camacho"
           className="w-36 sm:w-44 md:w-56 object-contain"
+          loading="eager"
         />
         <div
           className="-mt-5 font-serif text-center tracking-widest text-[#c9a84c] leading-tight"
@@ -293,6 +294,9 @@ function Hero() {
         src={heroOffice}
         alt="Despacho legal Camacho"
         className="absolute inset-0 w-full h-full object-cover"
+        loading="eager"
+        fetchPriority="high"
+        decoding="async"
       />
       <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-black/20 to-black/80" />
       <div className="relative z-10 mx-auto max-w-7xl px-6 md:px-10 pb-16 md:pb-24 w-full">
@@ -422,11 +426,30 @@ function WhyUs() {
               — Por qué elegirnos
             </div>
             <h2 className="font-serif text-4xl md:text-5xl leading-[1.05] text-balance mb-6">
-              ¿Enfrentando un proceso legal y no sabe por dónde empezar?
+              Especialización y atención experta en tu caso.
             </h2>
-            <p className="text-base text-[oklch(0.45_0.015_120)] leading-relaxed">
+            <p className="text-base text-[oklch(0.45_0.015_120)] leading-relaxed mb-8">
               Más de 25 años de experiencia en Teziutlán y la región nos respaldan. Resultados comprobables, estrategia honesta.
             </p>
+            {/* Redes sociales */}
+            <div className="flex flex-wrap items-center gap-3">
+              <a
+                href="https://www.facebook.com/CamachoyAsociadosAbogado/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-xs uppercase tracking-widest text-white bg-[#1877F2] hover:bg-[#166fe5] transition-colors px-5 py-2.5 rounded-md shadow-sm"
+              >
+                <IconFacebook /> Facebook
+              </a>
+              <a
+                href="https://maps.app.goo.gl/ZCTcuLwndC5VV6mz6"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-xs uppercase tracking-widest text-[oklch(0.18_0.015_150)] bg-white border border-black/10 hover:bg-black/5 transition-colors px-5 py-2.5 rounded-md shadow-sm"
+              >
+                <IconGoogle /> Reseñas en Google
+              </a>
+            </div>
           </div>
           
           <div className="md:col-span-6 md:col-start-7 grid sm:grid-cols-2 gap-6">
@@ -459,87 +482,89 @@ function WhyUs() {
 
 /* ── Practice ────────────────────────────────────── */
 function Practice() {
+  const [openIdx, setOpenIdx] = useState<number | null>(0);
+
   const areas = [
-    { icon: <IconScales />, t: "Derecho Civil", d: "Contratos, propiedad, arrendamientos y conflictos entre particulares.", e: "Ej. Contratos de compraventa, regularización de predios." },
-    { icon: <IconHome />, t: "Derecho Familiar", d: "Divorcios, pensión alimenticia, custodia y sucesiones.", e: "Ej. Divorcios incausados, juicios intestamentarios." },
-    { icon: <IconBriefcase />, t: "Derecho Mercantil", d: "Constitución de empresas, contratos comerciales y cobranza.", e: "Ej. Cobro de pagarés, embargos precautorios." },
-    { icon: <IconUser />, t: "Derecho Laboral", d: "Despidos injustificados, finiquitos y demandas ante la junta.", e: "Ej. Negociación de liquidaciones, defensa del trabajador." },
-    { icon: <IconShield />, t: "Amparo y Penal", d: "Defensa penal y juicios de amparo ante actos de autoridad.", e: "Ej. Amparos contra órdenes de aprehensión." },
+    { icon: <IconScales />, t: "Derecho Civil", d: "Contratos, propiedad, arrendamientos y conflictos entre particulares.", e: "Contratos de compraventa · Regularización de predios · Juicios civiles" },
+    { icon: <IconHome />, t: "Derecho Familiar", d: "Divorcios, pensión alimenticia, custodia y sucesiones.", e: "Divorcios incausados · Juicios sucesorios · Custodia de menores" },
+    { icon: <IconBriefcase />, t: "Derecho Mercantil", d: "Constitución de empresas, contratos comerciales y cobranza.", e: "Cobro de pagarés · Embargos precautorios · Actas constitutivas" },
+    { icon: <IconUser />, t: "Derecho Laboral", d: "Despidos injustificados, finiquitos y demandas ante la junta.", e: "Negociación de liquidaciones · Demandas patronales · IMSS" },
+    { icon: <IconShield />, t: "Amparo y Penal", d: "Defensa penal y juicios de amparo ante actos de autoridad.", e: "Amparos · Defensa en juicios penales · Libertad bajo caución" },
   ];
 
   return (
-    <section id="practica" className="mx-auto max-w-7xl px-6 md:px-10 pb-16 md:pb-24">
+    <section id="practica" className="mx-auto max-w-7xl px-6 md:px-10 pt-12 md:pt-16 pb-16 md:pb-24">
       <FadeIn>
-        <div className="text-xs uppercase tracking-[0.3em] text-[#B0623B] mb-6">
-          — Áreas de práctica
-        </div>
-
-        {/* Enlaces Sociales - Facebook y Google */}
-        <div className="flex flex-wrap items-center gap-4 mb-10">
-          <a
-            href="https://www.facebook.com/CamachoyAsociadosAbogado/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-3 text-xs uppercase tracking-widest text-white bg-[#1877F2] hover:bg-[#166fe5] transition-colors px-6 py-3 rounded-md shadow-sm"
-          >
-            <IconFacebook />
-            Facebook
-          </a>
-          <a
-            href="https://maps.app.goo.gl/ZCTcuLwndC5VV6mz6"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-3 text-xs uppercase tracking-widest text-[oklch(0.18_0.015_150)] bg-white border border-black/10 hover:bg-black/5 transition-colors px-6 py-3 rounded-md shadow-sm"
-          >
-            <IconGoogle />
-            Reseñas en Google
-          </a>
-        </div>
-
-        <h2 className="font-serif text-4xl md:text-5xl mb-12 text-balance max-w-xl">
-          Especialización y atención experta en tu caso.
+        <h2 className="font-serif text-4xl md:text-5xl mb-10 text-balance max-w-xl">
+          ¿Enfrentando un proceso legal y no sabe por dónde empezar?
         </h2>
       </FadeIn>
 
-      {/* Grid para escritorio y carrusel para móvil */}
-      <div className="flex overflow-x-auto snap-x snap-mandatory sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-px md:bg-[oklch(0.86_0.012_90)] mt-8 pb-4 sm:pb-0" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-        {areas.map((a, i) => (
-          <FadeIn key={a.t} delay={i * 100} className="w-[85vw] sm:w-auto shrink-0 snap-start h-full">
-            <div className="bg-[#E6EAE6] md:bg-[oklch(0.97_0.008_90)] border border-black/5 md:border-none p-8 md:p-10 h-full flex flex-col rounded-xl md:rounded-none relative overflow-hidden group">
-              <span className="absolute top-6 right-6 text-[10px] font-bold text-black/10">0{i + 1}</span>
-              <div className="text-[oklch(0.35_0.015_150)] mb-5 transition-transform group-hover:scale-110 group-hover:text-[#B0623B] duration-300 origin-left">{a.icon}</div>
-              <h3 className="font-serif text-xl mb-2">{a.t}</h3>
-              <p className="text-sm text-[oklch(0.45_0.015_120)] leading-relaxed mb-4">{a.d}</p>
-              <p className="text-xs font-semibold text-[#c9a84c] mt-auto uppercase tracking-wider">{a.e}</p>
-            </div>
-          </FadeIn>
-        ))}
+      {/* Acordeón con animación staggered al hacer scroll */}
+      <div className="divide-y divide-black/8 border-y border-black/8">
+        {areas.map((a, i) => {
+          const isOpen = openIdx === i;
+          return (
+            <FadeIn key={a.t} delay={i * 80}>
+              <button
+                onClick={() => setOpenIdx(isOpen ? null : i)}
+                className="w-full flex items-center justify-between gap-4 py-5 md:py-6 text-left group"
+                aria-expanded={isOpen}
+              >
+                <div className="flex items-center gap-4">
+                  <span className={`transition-colors duration-300 ${isOpen ? "text-[#B0623B]" : "text-[oklch(0.45_0.015_150)]"}`}>
+                    {a.icon}
+                  </span>
+                  <span className={`font-serif text-xl md:text-2xl transition-colors duration-300 ${isOpen ? "text-[#1C2B22]" : "text-[oklch(0.25_0.015_150)] group-hover:text-[#1C2B22]"}`}>
+                    {a.t}
+                  </span>
+                </div>
+                <IconChevronDown
+                  className={`w-5 h-5 shrink-0 text-[#c9a84c] transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
+                />
+              </button>
 
-        {/* CTA card */}
-        <FadeIn delay={areas.length * 100} className="w-[85vw] sm:w-auto shrink-0 snap-start h-full sm:col-span-2 lg:col-span-1">
-          <div className="bg-[#1C2B22] p-8 md:p-10 h-full flex flex-col justify-between min-h-[200px] rounded-xl md:rounded-none">
-            <div>
-              <p className="font-serif text-xl text-white mb-3">
-                ¿No está seguro cuál es su caso?
-              </p>
-              <p className="text-sm text-white/70 leading-relaxed">
-                Cuéntenos qué pasó en la primera consulta, sin costo, y le decimos qué camino conviene.
-              </p>
-            </div>
-            <a
-              href={WA_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-8 inline-flex items-center gap-2 text-sm text-[#c9a84c] font-semibold hover:text-white transition-colors tracking-wide"
-            >
-              Escribir por WhatsApp →
-            </a>
-          </div>
-        </FadeIn>
+              {/* Panel expandible */}
+              <div
+                className="overflow-hidden transition-all duration-400 ease-in-out"
+                style={{ maxHeight: isOpen ? "200px" : "0" }}
+              >
+                <div className="pb-6 pl-10 md:pl-12 grid md:grid-cols-2 gap-4">
+                  <p className="text-sm md:text-base text-[oklch(0.45_0.015_120)] leading-relaxed">
+                    {a.d}
+                  </p>
+                  <p className="text-xs text-[#c9a84c] font-semibold uppercase tracking-wider leading-relaxed">
+                    {a.e}
+                  </p>
+                </div>
+              </div>
+            </FadeIn>
+          );
+        })}
       </div>
+
+      {/* CTA al pie del acordeón */}
+      <FadeIn delay={areas.length * 80}>
+        <div className="mt-8 flex flex-col sm:flex-row items-start sm:items-center gap-4 bg-[#1C2B22] px-7 py-6 rounded-xl">
+          <div className="flex-1">
+            <p className="font-serif text-lg text-white mb-1">¿No está seguro cuál es su caso?</p>
+            <p className="text-sm text-white/60">Cuéntenos qué pasó — primera consulta sin costo.</p>
+          </div>
+          <a
+            href={WA_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 bg-[#c9a84c] text-[#1C2B22] font-bold px-5 py-3 text-[11px] uppercase tracking-widest hover:bg-[#dbb95a] transition-colors rounded-sm whitespace-nowrap"
+          >
+            <IconWhatsApp className="w-3.5 h-3.5" />
+            Escribir por WhatsApp
+          </a>
+        </div>
+      </FadeIn>
     </section>
   );
 }
+
 
 /* ── Reviews ─────────────────────────────────────── */
 function Reviews() {
@@ -844,7 +869,7 @@ function Coverage() {
     <section className="relative py-20 md:py-32 bg-[#111a15] overflow-hidden">
       {/* Background image - Catedral */}
       <div className="absolute inset-0 opacity-20 mix-blend-luminosity">
-        <img src={catedralImg} alt="Catedral de Teziutlán Puebla" className="w-full h-full object-cover" />
+        <img src={catedralImg} alt="Catedral de Teziutlán Puebla" className="w-full h-full object-cover" loading="lazy" decoding="async" />
         <div className="absolute inset-0 bg-gradient-to-tr from-green-900/50 to-transparent"></div>
       </div>
       

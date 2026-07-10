@@ -1,8 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect, useRef, type ReactNode } from "react";
-import heroOffice from "@/assets/hero-office.jpg";
 import eagleEmblem from "@/assets/user-eagle-clean.png";
 import catedralImg from "@/assets/catedral-teziutlan.jpg";
+import imgCamacho1 from "@/assets/imagen de abogado camacho.jpeg";
+import imgCamacho2 from "@/assets/camacho.jpeg";
+import imgCamacho3 from "@/assets/camachoy.jpeg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -288,17 +290,40 @@ function Nav() {
 
 /* ── Hero ────────────────────────────────────────── */
 function Hero() {
+  const heroImages = [
+    imgCamacho1,
+    imgCamacho2,
+    imgCamacho3,
+  ];
+
+  const [currentImg, setCurrentImg] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentImg((prev) => (prev + 1) % heroImages.length);
+    }, 2500); // Cambia cada 2.5 segundos
+    return () => clearInterval(timer);
+  }, []);
+
   return (
-    <section className="relative min-h-screen flex items-end overflow-hidden">
-      <img
-        src={heroOffice}
-        alt="Despacho legal Camacho"
-        className="absolute inset-0 w-full h-full object-cover"
-        loading="eager"
-        fetchPriority="high"
-        decoding="async"
-      />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-black/20 to-black/80" />
+    <section className="relative min-h-screen flex items-end overflow-hidden bg-[#1C2B22]">
+      {heroImages.map((src, idx) => (
+        <img
+          key={idx}
+          src={src}
+          alt={`Fondo Despacho Camacho ${idx + 1}`}
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{
+            opacity: idx === currentImg ? 1 : 0,
+            transform: idx === currentImg ? 'scale(1.03)' : 'scale(1)',
+            transition: 'opacity 0.8s ease-in-out, transform 4s ease-out'
+          }}
+          loading={idx === 0 ? "eager" : "lazy"}
+          fetchPriority={idx === 0 ? "high" : "auto"}
+          decoding="async"
+        />
+      ))}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/80" />
       <div className="relative z-10 mx-auto max-w-7xl px-6 md:px-10 pb-16 md:pb-24 w-full">
         <div className="max-w-3xl">
           <FadeIn delay={100}>

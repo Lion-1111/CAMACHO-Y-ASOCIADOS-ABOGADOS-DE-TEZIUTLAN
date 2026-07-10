@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useEffect, useRef, type ReactNode } from "react";
 import eagleEmblem from "@/assets/user-eagle-clean.png";
 import catedralImg from "@/assets/catedral-teziutlan.jpg";
@@ -1044,6 +1044,10 @@ function Contact() {
               />
             </div>
 
+            <div className="text-[10px] sm:text-[11px] text-white/50 leading-relaxed text-center mb-4">
+              Al hacer clic en "Enviar consulta", aceptas nuestros <Link to="/terminos" target="_blank" className="text-[#c9a84c] hover:underline">Términos y Condiciones</Link> y el <Link to="/privacidad" target="_blank" className="text-[#c9a84c] hover:underline">Aviso de Privacidad</Link>. Tus datos viajan protegidos de extremo a extremo.
+            </div>
+
             <button
               type="submit"
               className="w-full bg-[#B0623B] text-white py-4 text-xs uppercase tracking-[0.3em] hover:bg-[#963f1e] transition-colors"
@@ -1089,7 +1093,13 @@ function Footer() {
     <footer className="bg-[#111a15] border-t border-white/10">
       <div className="mx-auto max-w-7xl px-6 md:px-10 py-8 flex flex-col md:flex-row justify-between gap-4 text-xs text-white/35 tracking-wide">
         <div className="font-serif text-sm text-[#c9a84c]">Camacho Y Asociados Abogados</div>
-        <div>© {new Date().getFullYear()} — Todos los derechos reservados.</div>
+        <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-6 text-center sm:text-left">
+          <span>© {new Date().getFullYear()} — Todos los derechos reservados.</span>
+          <div className="flex gap-4">
+            <Link to="/terminos" className="hover:text-[#c9a84c] transition-colors underline underline-offset-4 decoration-white/20">Términos y Condiciones</Link>
+            <Link to="/privacidad" className="hover:text-[#c9a84c] transition-colors underline underline-offset-4 decoration-white/20">Aviso de Privacidad</Link>
+          </div>
+        </div>
         <div className="uppercase tracking-[0.25em]">Teziutlán · Puebla · México</div>
       </div>
     </footer>

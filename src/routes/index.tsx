@@ -18,6 +18,10 @@ export const Route = createFileRoute("/")({
       { property: "og:site_name", content: "Camacho Y Asociados" },
       // { property: "og:image", content: "URL_A_TU_IMAGEN_SOCIAL" }, // Descomentar cuando haya dominio
     ],
+    links: [
+      { rel: "preload", href: imgCamacho1, as: "image" },
+      { rel: "preload", href: eagleEmblem, as: "image" },
+    ],
   }),
   component: Index,
 });

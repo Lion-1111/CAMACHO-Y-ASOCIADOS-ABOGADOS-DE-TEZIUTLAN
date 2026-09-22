@@ -85,16 +85,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:description", content: "Despacho jurídico de confianza en Teziutlán. Derecho Penal, Familiar, Civil, Mercantil y Laboral. Atendemos toda la Sierra Norte de Puebla." },
       { property: "og:type", content: "website" },
       { property: "og:locale", content: "es_MX" },
-      { name: "twitter:card", content: "summary" },
+      { property: "og:image", content: "https://www.camacho-y-asociados-abogados.com/og-image.jpg" },
+      { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Camacho y Asociados Abogados — Teziutlán, Puebla" },
       { name: "twitter:description", content: "Despacho jurídico de confianza en Teziutlán, Puebla. Más de 25 años de experiencia." },
+      { name: "twitter:image", content: "https://www.camacho-y-asociados-abogados.com/og-image.jpg" },
     ],
     links: [
       {
         rel: "stylesheet",
         href: appCss,
       },
-      { rel: "canonical", href: "https://camachoyasociados.com/" },
+      { rel: "canonical", href: "https://www.camacho-y-asociados-abogados.com/" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "" },
       {
@@ -109,8 +111,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "@context": "https://schema.org",
           "@type": "LegalService",
           "name": "Camacho y Asociados Abogados",
-          "image": "https://camachoyasociados.com/catedral-teziutlan.jpg",
-          "url": "https://camachoyasociados.com/",
+          "image": "https://www.camacho-y-asociados-abogados.com/og-image.jpg",
+          "url": "https://www.camacho-y-asociados-abogados.com/",
           "telephone": "+5212311221030",
           "address": {
             "@type": "PostalAddress",

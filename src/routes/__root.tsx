@@ -85,14 +85,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:description", content: "Despacho jurídico de confianza en Teziutlán. Derecho Penal, Familiar, Civil, Mercantil y Laboral. Atendemos toda la Sierra Norte de Puebla." },
       { property: "og:type", content: "website" },
       { property: "og:locale", content: "es_MX" },
-      { property: "og:image", content: "https://www.camacho-y-asociados-abogados.com/nuevologotipoorizontalcamacho.jpeg" },
+      { property: "og:image", content: "https://www.camacho-y-asociados-abogados.com/og-image.jpg" },
       { property: "og:image:width", content: "1200" },
-      { property: "og:image:height", content: "630" },
+      { property: "og:image:height", content: "800" },
       { property: "og:image:type", content: "image/jpeg" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Camacho y Asociados Abogados — Teziutlán, Puebla" },
       { name: "twitter:description", content: "Despacho jurídico de confianza en Teziutlán, Puebla. Más de 25 años de experiencia." },
-      { name: "twitter:image", content: "https://www.camacho-y-asociados-abogados.com/nuevologotipoorizontalcamacho.jpeg" },
+      { name: "twitter:image", content: "https://www.camacho-y-asociados-abogados.com/og-image.jpg" },
     ],
     links: [
       {
